@@ -1,0 +1,8 @@
+import requests
+from lxml import etree
+from bs4 import BeautifulSoup
+
+page = requests.get("https://qurango.com/2.html")
+soup = BeautifulSoup(page.content, 'html.parser')
+
+print(soup.prettify())
