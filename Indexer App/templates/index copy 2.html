@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Data</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Files Data</h1>
+    <table id="filesTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>File</th>
+                <th>File Content</th>
+                <th>Subject</th>
+                <th>File Physical Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files %}
+            <tr>
+                <td>{{ file[0] }}</td>
+                <td>{{ file[1] }}</td>
+                <td>{{ file[2] }}</td>
+                <td>
+                    <input type="text" id="subject_{{ file[0] }}" value="{{ file[3] }}">
+                </td>
+                <td>
+                    <input type="text" id="location_{{ file[0] }}" value="{{ file[4] }}">
+                </td>
+                <td>
+                    <button onclick="updateFile('{{ file[0] }}')">Update</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $('#filesTable').DataTable();
+        });
+
+        function updateFile(id) {
+            var subject = $('#subject_' + id).val();
+            var location = $('#location_' + id).val();
+            $.post(`/update/${id}`, { subject: subject, filephysicallocation: location }, function() {
+                location.reload(); // Reload the page to see updated data
+            });
+        }
+    </script>
+
+</body>
+</html>

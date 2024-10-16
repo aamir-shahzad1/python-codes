@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Data</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Files Data</h1>
+
+<table id="filesTable" class="display">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>File</th>
+            <th>File Content</th>
+            <th>Subject</th>
+            <th>Physical Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in files %}
+        <tr>
+            <td>{{ file[0] }}</td>
+            <td>{{ file[1] }}</td>
+            <td>{{ file[2] }}</td>
+            <td>
+                <input type="text" id="subject-{{ file[0] }}" value="{{ file[3] }}">
+            </td>
+            <td>
+                <input type="text" id="location-{{ file[0] }}" value="{{ file[4] }}">
+            </td>
+            <td>
+                <button onclick="updateFile('{{ file[0] }}')">Save Location</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- jQuery and DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#filesTable').DataTable();
+    });
+
+    function updateFile(id) {
+        const subject = $(`#subject-${id}`).val();
+        const filephysicallocation = $(`#location-${id}`).val();
+        
+        $.ajax({
+            url: `/update/${id}`,
+            type: 'POST',
+            data: {
+                subject: subject,
+                filephysicallocation: filephysicallocation
+            },
+            success: function() {
+                alert('File updated successfully!');
+                location.reload();  // Reload the page to see the changes
+            },
+            error: function() {
+                alert('Error updating the file.');
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
