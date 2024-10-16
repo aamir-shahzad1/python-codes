@@ -1,0 +1,7 @@
+Visual C++ Redistributable: Many Python-based executables depend on Microsoft’s Visual C++ Redistributable. Ensure the target machine has the correct version installed (typically the Visual C++ 2015-2019 Redistributable).
+
+
+
+popper 
+
+tesseract-OCR

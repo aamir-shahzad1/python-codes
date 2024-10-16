@@ -1,0 +1,6 @@
+watchdog
+pdf2image
+pytesseract
+Pillow
+Flask
+Flask-SQLAlchemy
