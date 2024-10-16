@@ -1,0 +1,1 @@
+This will monitor a directory whenever a file is place in that directory it stores it content in sqlite database. on on webpage localhost:5000 user can search that file based on it content
